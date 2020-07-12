@@ -93,14 +93,15 @@ class Combiner:
         # set up the data array
         new_shape = (len(ccd_list),) + default_shape
         self.data_arr = ma.masked_all(new_shape, dtype=dtype)
+        # self.data_att = np.array(new_shape, dtype=dtype)
 
         # populate self.data_arr
-        for i, ccd in enumerate(ccd_list):
-            self.data_arr[i] = ccd.data
-            if ccd.mask is not None:
-                self.data_arr.mask[i] = ccd.mask
-            else:
-                self.data_arr.mask[i] = ma.zeros(default_shape)
+        # for i, ccd in enumerate(ccd_list):
+        #     self.data_arr[i] = ccd.data
+        #     if ccd.mask is not None:
+        #         self.data_arr.mask[i] = ccd.mask
+        #     else:
+        #         self.data_arr.mask[i] = ma.zeros(default_shape)
 
         # Must be after self.data_arr is defined because it checks the
         # length of the data array.
