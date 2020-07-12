@@ -298,10 +298,10 @@ class Combiner:
             if low_thresh < 0:
                 low_thresh = abs(low_thresh)
             mask = (self.data_arr - baseline < -low_thresh * dev)
-            self.data_arr.mask[mask] = True
+            # self.data_arr.mask[mask] = True
         if high_thresh is not None:
             mask = (self.data_arr - baseline > high_thresh * dev)
-            self.data_arr.mask[mask] = True
+            # self.data_arr.mask[mask] = True
 
     def _get_scaled_data(self, scale_arg):
         if scale_arg is not None:
