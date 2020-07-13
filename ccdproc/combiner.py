@@ -92,8 +92,8 @@ class Combiner:
 
         # set up the data array
         new_shape = (len(ccd_list),) + default_shape
-        self.data_arr = ma.masked_all(new_shape, dtype=dtype)
-        # self.data_att = np.array(new_shape, dtype=dtype)
+        # self.data_arr = ma.masked_all(new_shape, dtype=dtype)
+        self.data_arr = np.array(new_shape, dtype=dtype)
 
         # populate self.data_arr
         # for i, ccd in enumerate(ccd_list):
