@@ -415,8 +415,9 @@ class Combiner:
                                returned=True)
 
         # set up the mask
-        masked_values = self.data_arr.mask.sum(axis=0)
-        mask = (masked_values == len(self.data_arr))
+        # masked_values = self.data_arr.mask.sum(axis=0)
+        # mask = (masked_values == len(self.data_arr))
+        masked_values = 0
 
         # set up the deviation
         uncertainty = uncertainty_func(self.data_arr, axis=0)
@@ -427,7 +428,7 @@ class Combiner:
 
         # create the combined image with a dtype that matches the combiner
         combined_image = CCDData(np.asarray(data.data, dtype=self.dtype),
-                                 mask=mask, unit=self.unit,
+                                 mask=None, unit=self.unit,
                                  uncertainty=StdDevUncertainty(uncertainty))
 
         # update the meta data
