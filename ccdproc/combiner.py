@@ -4,6 +4,9 @@
 
 import numpy as np
 from numpy import ma
+
+import bottleneck as bn
+
 from .core import sigma_func
 
 from astropy.nddata import CCDData, StdDevUncertainty
@@ -377,8 +380,8 @@ class Combiner:
         # return the combined image
         return combined_image
 
-    def average_combine(self, scale_func=np.nanmean, scale_to=None,
-                        uncertainty_func=np.nanstd, sum_func=np.nansum):
+    def average_combine(self, scale_func=bn.nanmean, scale_to=None,
+                        uncertainty_func=bn.nanstd, sum_func=bn.nansum):
         """
         Average combine together a set of arrays.
 
@@ -432,12 +435,18 @@ class Combiner:
             else:
                 weights = self.weights
 
+            # Turns out bn.nansum has an implementation that is not
+            # precise enough for float32 sums. Doing this should
+            # ensure the sums are carried out as float64
+            weights = weights.astype('float64')
             weighted_sum = sum_func(data * weights, axis=0)
             mean = weighted_sum / sum_func(weights, axis=0)
         else:
             mean = scale_func(data, axis=0)
 
         # set up the mask
+        # Leave this as-is since there will be no NaNs or masked values
+        # in this sum.
         masked_values = np.isnan(data).sum(axis=0)
         mask = (masked_values == len(self.data_arr))
 
