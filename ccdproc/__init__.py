@@ -20,6 +20,9 @@ except DistributionNotFound:
     # package is not installed
     __version__ = 'unknown'
 
+# Clean up the name space
+del get_distribution, DistributionNotFound
+
 # set up namespace, unless we are in setup...
 if not _ASTROPY_SETUP_:
     from .core import *
