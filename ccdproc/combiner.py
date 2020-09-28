@@ -314,7 +314,7 @@ class Combiner:
         return self.data_arr
 
     # set up the combining algorithms
-    def median_combine(self, median_func=ma.median, scale_to=None,
+    def median_combine(self, median_func=np.nanmedian, scale_to=None,
                        uncertainty_func=sigma_func):
         """
         Median combine a set of arrays.
@@ -352,10 +352,19 @@ class Combiner:
         deviation does not account for rejected pixels.
         """
         # set the data
-        data = median_func(self._get_scaled_data(scale_to), axis=0)
+        data = self._get_scaled_data(scale_to)
+
+        # Get the data as an unmasked array
+        # Replace masked values with NaN
+        if self.data_arr.mask.any():
+            data = np.ma.filled(data, fill_value=np.nan)
+        else:
+            data = data.data
+
+        medianed = median_func(data, axis=0)
 
         # set the mask
-        masked_values = self.data_arr.mask.sum(axis=0)
+        masked_values = np.isnan(data).sum(axis=0)
         mask = (masked_values == len(self.data_arr))
 
         # set the uncertainty
@@ -370,7 +379,7 @@ class Combiner:
         uncertainty = np.asarray(uncertainty)
 
         # create the combined image with a dtype matching the combiner
-        combined_image = CCDData(np.asarray(data.data, dtype=self.dtype),
+        combined_image = CCDData(np.asarray(medianed, dtype=self.dtype),
                                  mask=mask, unit=self.unit,
                                  uncertainty=StdDevUncertainty(uncertainty))
 
