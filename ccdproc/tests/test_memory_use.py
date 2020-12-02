@@ -41,6 +41,7 @@ def test_memory_use_in_combine(combine_method):
                                     size=image_size, memory_limit=memory_limit,
                                     combine_method=combine_method)
 
+    mem_use = np.array(mem_use)
     # We do not expect memory use to be strictly less than memory_limit
     # throughout the combination. The factor below allows for that.
     # It may need to be raised in the future...that is fine, there is a
@@ -66,4 +67,4 @@ def test_memory_use_in_combine(combine_method):
 
     # If the average is really low perhaps we should look at reducing peak
     # usage. Nothing special, really, about the factor 0.4 below.
-    assert np.mean(mem_use) > 0.4 * memory_limit_mb
+    assert np.mean(mem_use[mem_use > 0]) > 0.4 * memory_limit_mb
