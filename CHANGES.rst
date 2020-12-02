@@ -1,3 +1,18 @@
+2.2.0 (unreleased)
+------------------
+
+New Features
+^^^^^^^^^^^^
+
+- Improved performance for image combination [#741]
+
+Other Changes and Additions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Bug Fixes
+^^^^^^^^^
+
+
 2.1.1 (unreleased)
 ------------------
 
@@ -6,6 +21,7 @@ New Features
 
 Other Changes and Additions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 - Add memory_profiler as a test requirement [#739]
 
 - Updated test suite to use absolute, not relative imports [#735]
