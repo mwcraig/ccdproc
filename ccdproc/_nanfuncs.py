@@ -57,7 +57,8 @@ def _fill_doc(template=_COMMON_PARAMS, /, **substitutions):
     Fill a function docstring's ``{params}`` placeholder with ``template``
     (`_COMMON_PARAMS` by default), applying ``substitutions`` to the
     template first. The template is positional-only so that every keyword
-    is free to be a substitution; `ccdproc._blocks` passes its own.
+    is free to be a substitution; `ccdproc._blocks` and
+    `ccdproc._windowfilters` each pass their own.
     """
 
     def decorator(func):
